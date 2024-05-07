@@ -62,3 +62,6 @@ Binance documentation:
 
 UI Sample to use as a guide:
 ![Screenshot 2023-03-15 at 10 51 49](https://user-images.githubusercontent.com/20883536/225329370-30ff8f83-7493-4b91-9ae1-561b6fe6bda3.png)
+
+## Estrutura feita no html
+<img src="./test-app/src/assets/dashboard.png" alt="Imagem dashboard">
