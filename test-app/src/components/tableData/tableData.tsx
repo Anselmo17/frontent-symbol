@@ -15,19 +15,25 @@ import {
     Tr,
     Center
 } from '@chakra-ui/react';
+import { SybomlsContext } from '../../context/SymbolsContext';
+import React, { useContext } from 'react';
 
-//import { useState } from 'react';
 
-// interface Simbols {
-//     simbol: string;
-//     last: string;
-//     ask: string;
-//     bid: string;
-//     porcent: string;
-// }
+const TableData = () => {
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const TableData = ({ listData, listCurrent, filterData }) => {
+    const { symbols, symbolsChecked, symbolsCurrent, filterData } = useContext(SybomlsContext);
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let listCurrentTable: any = [];
+    let symbolsCheckedCurrent = [];
+    symbolsCheckedCurrent = symbolsChecked.filter(item => item.checked === true);
+
+    if (symbolsCheckedCurrent.length) {
+        listCurrentTable = symbolsCheckedCurrent;
+    } else {
+        listCurrentTable = symbolsCurrent.length > 0 ? symbolsCurrent : symbols
+    }
+
 
     function filterSymbol(e) {
         filterData(e.target.value);
@@ -36,9 +42,9 @@ const TableData = ({ listData, listCurrent, filterData }) => {
     return (
         <>
             <Flex align="center" justify="center" mb={6}>
-                <Select placeholder='Select Symbol' onChange={filterSymbol}>
+                <Select placeholder='TODOS' onChange={filterSymbol}>
                     {
-                        listData.map((item, index) => (
+                        symbols.map((item, index) => (
                             <option key={item.symbol + index} value={item.symbol}>{item.symbol}</option>
                         ))}
                 </Select>
@@ -63,7 +69,7 @@ const TableData = ({ listData, listCurrent, filterData }) => {
                         </Tr>
                     </Thead>
                     <Tbody>
-                        {listCurrent.map((item) => (
+                        {listCurrentTable.map((item) => (
                             <Tr key={item.symbol}>
                                 <Td>{item.symbol}</Td>
                                 <Td>{item.filters.find((item) => item.filterType === 'PRICE_FILTER').maxPrice}</Td>
@@ -84,7 +90,7 @@ const TableData = ({ listData, listCurrent, filterData }) => {
                         ))}
                     </Tbody>
                     {
-                        listCurrent.length === 0 ?
+                        listCurrentTable.length === 0 ?
                             <TableCaption fontSize={25} color={'tomato'}>Nenhum item encontrado</TableCaption> : ''
                     }
                 </Table>
